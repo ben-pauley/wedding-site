@@ -84,8 +84,8 @@ export default function Home() {
                 try {
                   const res = await fetch("/api/verify", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ name, email }),
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify({name, email}),
                   })
                   const data = await res.json()
 
@@ -209,7 +209,9 @@ export default function Home() {
         )}
 
         <footer className="mt-16 text-center text-sm text-gray-500">
-          Venue: · Dress code:
+          Built with ❤️
+          <br/>
+          by Ben & Praise
         </footer>
       </div>
     </main>
