@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { useTheme } from "@/components/ThemeProvider"
+import {useState, useRef, useEffect} from "react"
+import {useTheme} from "@/components/ThemeProvider"
 
 export default function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const {theme, setTheme} = useTheme()
   const [open, setOpen] = useState(false)
   const dropdownRef = useRef(null)
 
@@ -25,7 +25,10 @@ export default function ThemeToggle() {
   return (
     <div className="relative" ref={dropdownRef}>
       {/* Desktop inline buttons */}
-      <div className="hidden md:inline-flex items-center gap-2 rounded-xl border border-gray-200 dark:border-neutral-700 p-1">
+      <div
+        className="hidden md:inline-flex items-center gap-2 rounded-2xl
+        border border-gray-200 dark:border-neutral-700 p-1"
+      >
         <button
           onClick={() => setTheme("light")}
           className={`px-3 py-1 rounded-lg text-sm ${
@@ -69,7 +72,8 @@ export default function ThemeToggle() {
           ☰
         </button>
         {open && (
-          <div className="absolute right-0 mt-2 w-28 rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-lg overflow-hidden z-10">
+          <div
+            className="absolute right-0 mt-2 w-28 rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 shadow-lg overflow-hidden z-10">
             <button
               onClick={() => {
                 setTheme("light")
