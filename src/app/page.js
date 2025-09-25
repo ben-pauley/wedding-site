@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import ThemeToggle from "@/components/ThemeToggle"
 
+// Normalize helper
 function normalize(s = "") {
   return s
     .toLowerCase()
@@ -22,7 +23,7 @@ export default function Home() {
   const [error, setError] = useState("")
   const router = useRouter()
 
-  // 🔍 Name lookup
+  // 🔍 Lookup suggestions
   useEffect(() => {
     const handle = setTimeout(async () => {
       if (name.trim().length < 2) {
@@ -48,7 +49,7 @@ export default function Home() {
   const nameOk = !!picked && normalize(picked.fullName) === normalize(name)
   const canContinue = nameOk && !!email.trim()
 
-  // 🚀 Form submit
+  // 🚀 Submit form
   async function handleSubmit(e) {
     e.preventDefault()
     setError("")
@@ -95,7 +96,7 @@ export default function Home() {
     <main className="min-h-screen bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 transition-colors">
       <div className="mx-auto max-w-3xl px-6 py-16">
 
-        {/* Top bar */}
+        {/* Top bar with theme toggle */}
         <div className="flex justify-end mb-6">
           <ThemeToggle />
         </div>
@@ -111,7 +112,7 @@ export default function Home() {
           </p>
         </header>
 
-        {/* Entry Button */}
+        {/* Entry button */}
         {!open && (
           <div className="mt-12 flex justify-center">
             <button
@@ -135,7 +136,7 @@ export default function Home() {
                 Please enter your full name and email to continue.
               </p>
 
-              {/* Name */}
+              {/* Name input */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-neutral-300">
                   Full name
@@ -183,7 +184,7 @@ export default function Home() {
                 )}
               </div>
 
-              {/* Email */}
+              {/* Email input */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-neutral-300">
                   Email

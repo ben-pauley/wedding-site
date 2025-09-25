@@ -1,31 +1,26 @@
 "use client"
 import { createContext, useContext, useEffect, useState } from "react"
 
-// --- Helpers ---
-function applyTheme(mode) {
-  const mq = window.matchMedia("(prefers-color-scheme: dark)")
-  const isDark = mode === "dark" || (mode === "system" && mq.matches)
+// Context
+const ThemeContext = createContext()
 
-  document.documentElement.classList.toggle("dark", isDark)
-
-  if (mode === "system") {
-    document.documentElement.removeAttribute("data-theme")
-  } else {
-    document.documentElement.setAttribute("data-theme", mode)
-  }
-}
-
-// --- Context ---
-const ThemeContext = createContext({
-  theme: "system",
-  setTheme: () => {},
-})
-
-// --- Provider ---
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState("system")
+  const [theme, setTheme] = useState("system") // "light" | "dark" | "system"
 
-  // Init theme from localStorage or system
+  // Apply to <html>
+  function applyTheme(mode) {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)")
+    const isDark = mode === "dark" || (mode === "system" && mq.matches)
+    document.documentElement.classList.toggle("dark", isDark)
+
+    if (mode === "system") {
+      document.documentElement.removeAttribute("data-theme")
+    } else {
+      document.documentElement.setAttribute("data-theme", mode)
+    }
+  }
+
+  // Init
   useEffect(() => {
     const stored = localStorage.getItem("theme") || "system"
     setTheme(stored)
@@ -33,13 +28,15 @@ export function ThemeProvider({ children }) {
 
     const mq = window.matchMedia("(prefers-color-scheme: dark)")
     const onChange = () => {
-      const current = localStorage.getItem("theme") || "system"
-      if (current === "system") applyTheme("system")
+      if ((localStorage.getItem("theme") || "system") === "system") {
+        applyTheme("system")
+      }
     }
     mq.addEventListener("change", onChange)
     return () => mq.removeEventListener("change", onChange)
   }, [])
 
+  // Update + persist
   const setThemeAndPersist = (next) => {
     setTheme(next)
     localStorage.setItem("theme", next)
@@ -53,7 +50,7 @@ export function ThemeProvider({ children }) {
   )
 }
 
-// --- Hook for convenience ---
+// Hook
 export function useTheme() {
   return useContext(ThemeContext)
 }
