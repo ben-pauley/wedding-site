@@ -1,14 +1,9 @@
 import {NextResponse} from "next/server"
+import {normalize} from "@/lib/utils"
 
 const BASE = process.env.AIRTABLE_BASE_ID
 const TABLE = encodeURIComponent(process.env.AIRTABLE_TABLE || "Guest List")
 const TOKEN = process.env.AIRTABLE_TOKEN
-
-function normalize(s = "") {
-  return s.toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z\s]/g, "").replace(/\s+/g, " ").trim()
-}
 
 function lev(a, b) {
   const m = a.length, n = b.length
@@ -18,10 +13,27 @@ function lev(a, b) {
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       const cost = a[i - 1] === b[j - 1] ? 0 : 1
-      d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost)
+      d[i][j] = Math.min(
+        d[i - 1][j] + 1,
+        d[i][j - 1] + 1,
+        d[i - 1][j - 1] + cost
+      )
     }
   }
   return d[m][n]
+}
+
+function similarity(a, b) {
+  const distance = lev(a, b)
+  const maxLen = Math.max(a.length, b.length)
+  return maxLen === 0 ? 0 : 1 - distance / maxLen
+}
+
+function maxDistance(len) {
+  if (len <= 4) return 1
+  if (len <= 7) return 3
+  if (len <= 12) return 4
+  return 5
 }
 
 export async function GET(req) {
@@ -30,7 +42,6 @@ export async function GET(req) {
   if (nq.length < 2) return NextResponse.json({suggestions: []})
 
   try {
-    // pull up to 300 rows (3 pages of 100) — plenty for a guest list
     const all = []
     let offset = null
     for (let i = 0; i < 3; i++) {
@@ -52,22 +63,48 @@ export async function GET(req) {
       offset = data.offset
     }
 
-    const candidates = all.map(r => ({
-      id: r.id,
-      fullName: r.fields["Guest"] || "",
-      hasEmail: !!r.fields["Email"],
-    })).filter(c => c.fullName)
+    const candidates = all
+      .map(r => ({
+        id: r.id,
+        fullName: r.fields["Guest"] || "",
+        hasEmail: !!r.fields["Email"],
+      }))
+      .filter(c => c.fullName)
+
+    const threshold = maxDistance(nq.length)
 
     const scored = candidates
-      .map(c => ({
-        c,
-        score:
-          lev(nq, normalize(c.fullName)) +
-          (normalize(c.fullName).includes(nq) ? -1 : 0),
-      }))
+      .map(c => {
+        const normName = normalize(c.fullName)
+        const rawDist = lev(nq, normName)
+
+        // similarity check per word (good for "priise" vs "praise")
+        const wordSims = normName.split(" ").map(w => similarity(nq, w))
+        const bestWordSim = Math.max(...wordSims)
+
+        let score = rawDist
+        if (normName === nq) score -= 5
+        else if (normName.startsWith(nq)) score -= 3
+        else if (normName.includes(nq)) score -= 1
+
+        return {c, score, rawDist, bestWordSim, normName}
+      })
+      .filter(x => {
+        const {normName, rawDist, bestWordSim} = x
+
+        // ✅ Always keep strong literal matches
+        if (normName === nq || normName.startsWith(nq) || normName.includes(nq)) {
+          return true
+        }
+
+        // ✅ Otherwise, allow fuzzy matches if:
+        //   - edit distance is reasonable, OR
+        //   - word similarity is moderate
+        return rawDist <= threshold || bestWordSim >= 0.7
+      })
       .sort((a, b) => a.score - b.score)
       .slice(0, 5)
-      .map(x => x.c);
+      .map(x => x.c)
 
     return NextResponse.json({suggestions: scored})
   } catch (e) {
