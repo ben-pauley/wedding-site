@@ -4,31 +4,54 @@ import {useState, useEffect} from "react"
 import {useRouter} from "next/navigation"
 import {normalize} from "@/lib/utils"
 
-export default function RSVPForm({name, setName, email, setEmail, picked, setPicked, suggestions, setSuggestions}) {
+export default function RSVPForm({
+                                   name,
+                                   setName,
+                                   email,
+                                   setEmail,
+                                   picked,
+                                   setPicked,
+                                   suggestions,
+                                   setSuggestions,
+                                 }) {
   const [error, setError] = useState("")
+  const [lookupDone, setLookupDone] = useState(false) // ✅ track if API finished
   const router = useRouter()
 
   const nameOk = !!picked && normalize(picked.fullName) === normalize(name)
   const canContinue = nameOk && !!email.trim()
 
-  // 🔍 Lookup suggestions
+// 🔍 Lookup suggestions
   useEffect(() => {
     const handle = setTimeout(async () => {
       if (name.trim().length < 2) {
         setSuggestions([])
         setPicked(null)
+        setLookupDone(false)
         return
       }
       try {
         const res = await fetch(`/api/lookup?q=${encodeURIComponent(name)}`)
         const data = await res.json()
         const list = data.suggestions || []
-        setSuggestions(list)
 
-        const exact = list.find((s) => normalize(s.fullName) === normalize(name))
-        setPicked(exact || null)
+        // find an exact match (normalized)
+        const exact = list.find(
+          (s) => normalize(s.fullName) === normalize(name)
+        )
+
+        if (exact) {
+          // ✅ auto-pick and hide suggestions if exact match
+          setPicked(exact)
+          setSuggestions([])
+        } else {
+          setSuggestions(list)
+          setPicked(null)
+        }
       } catch {
         setSuggestions([])
+      } finally {
+        setLookupDone(true)
       }
     }, 250)
     return () => clearTimeout(handle)
@@ -99,10 +122,13 @@ export default function RSVPForm({name, setName, email, setEmail, picked, setPic
           onChange={(e) => {
             setName(e.target.value)
             setError("")
+            setLookupDone(false) // reset when user types again
           }}
           placeholder="Start typing your full name"
           className="mt-1 w-full rounded-xl border border-gray-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 text-gray-900 dark:text-neutral-100 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white transition-colors"
         />
+
+        {/* Suggestions */}
         {suggestions.length > 0 && (
           <ul
             className="mt-2 divide-y divide-gray-200 dark:divide-neutral-800 rounded-xl border border-gray-200 dark:border-neutral-700 bg-white dark:bg-neutral-900">
@@ -129,9 +155,11 @@ export default function RSVPForm({name, setName, email, setEmail, picked, setPic
             ))}
           </ul>
         )}
-        {!picked && name.trim().length >= 2 && (
-          <p className="mt-2 text-xs text-amber-700">
-            Please pick your name from the list above to continue.
+
+        {/* No matches */}
+        {lookupDone && suggestions.length === 0 && !picked && name.trim().length >= 2 && (
+          <p className="mt-2 text-xs text-red-600 dark:text-red-400">
+            We couldn’t find any matching names. Please check your spelling or try again.
           </p>
         )}
       </div>
