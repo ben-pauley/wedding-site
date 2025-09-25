@@ -1,7 +1,6 @@
 "use client"
 
 import {useState} from "react"
-import ThemeToggle from "@/components/ThemeToggle"
 import RSVPForm from "@/components/RSVPForm"
 
 export default function Home() {
@@ -14,11 +13,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 transition-colors">
       <div className="mx-auto max-w-3xl px-6 py-16">
-
-        {/* Top bar */}
-        <div className="flex justify-end mb-6">
-          <ThemeToggle/>
-        </div>
 
         {/* Header */}
         <header className="text-center space-y-3">
