@@ -116,6 +116,7 @@ export default function RSVPForm({
           Full name
         </label>
         <input
+          autoComplete={'off'}
           type="text"
           required
           value={name}
