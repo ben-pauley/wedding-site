@@ -1,13 +1,11 @@
 import React from "react"
 import {fetchGuestByToken} from "@/lib/airtable"
+import {getAccessLevel} from "@/lib/utils"
 import InfoCard from "@/components/InfoCard";
-import WarningCard from "@/components/WarningCard";
+import InvalidInvite from "@/components/InvalidInvite"
+import WarningCard from "@/components/WarningCard"
 
 export const dynamic = "force-dynamic"
-
-function accessFromPriority(priority) {
-  return String(priority || "").toLowerCase() === "definitely" ? "full" : "limited"
-}
 
 export default async function InvitePage({params}) {
   const {token} = params
@@ -15,23 +13,8 @@ export default async function InvitePage({params}) {
   const guest = await fetchGuestByToken(token)
 
   if (!guest) {
-    return (
-      <main
-        className={"min-h-screen bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 " +
-          "flex items-center justify-center px-6"}
-      >
-        <div className="max-w-md text-center">
-          <h1 className="text-2xl font-semibold mb-2">Invalid or expired link</h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            We couldn’t find an invite for this link. Please double-check your URL
-            or contact the couple to request a new one.
-          </p>
-        </div>
-      </main>
-    )
+    return <InvalidInvite/>
   }
-
-  const access = accessFromPriority(guest.priority)
 
   const firstName = guest.fullName.split(" ")[0]
 
@@ -47,17 +30,44 @@ export default async function InvitePage({params}) {
           </p>
         </header>
 
-        <InfoCard title="Ceremony 💒">
+        <InfoCard
+          moreLabel="More details"
+          morePath={'/ceremony'}
+          showMoreButton={true}
+          title="RSVP Here ✉️"
+          token={token}
+        >
+          make sure people can RSVP for multiple people (like family groups) // TODO
+        </InfoCard>
+
+        <InfoCard
+          moreLabel="More details"
+          morePath={'/ceremony'}
+          showMoreButton={true}
+          title="Ceremony 💒"
+          token={token}
+        >
           11:30 - Stirchley Community Church, Hazelwell St, Stirchley, Birmingham, B30 2JX
         </InfoCard>
 
-        {access === "full"
+        {getAccessLevel(guest.priority) === "full"
           ? <>
-            <InfoCard title="Wedding Reception 🥂">
+            <InfoCard
+              moreLabel="More details"
+              morePath={'/reception'}
+              showMoreButton={true}
+              title="Wedding Reception 🥂"
+              token={token}
+            >
               14:00 - Redhouse Barn, Shaw Ln, Stoke Prior, Bromsgrove, Worcestershire, B60 4BG
             </InfoCard>
 
-            <InfoCard title="Meal Selection 🍽️">
+            <InfoCard
+              moreLabel="More details"
+              morePath={'/meals'}
+              title="Meal Selection 🍽️"
+              token={token}
+            >
               <p className="text-gray-700 dark:text-gray-300 mb-4">
                 You’ll be able to pick your meal here.
               </p>
@@ -66,11 +76,22 @@ export default async function InvitePage({params}) {
                   "dark:border-neutral-700 p-4 text-gray-600 dark:text-gray-400"}
               >
                 Meal picker coming soon!
+
+                make sure people can choose meals for multiple people (like family groups) // TODO
+                include main course picker // TODO
+                include allergies input // TODO
+                include dietary requirements / vegan / vegetarian / gluten free / nut free / etc // TODO
               </div>
             </InfoCard>
           </>
           : <>
-            <InfoCard title="Evening Celebration">
+            <InfoCard
+              moreLabel="More details"
+              morePath={'/evening'}
+              showMoreButton={true}
+              title="Evening Celebration 🎉"
+              token={token}
+            >
               18:00 - Redhouse Barn, Shaw Ln, Stoke Prior, Bromsgrove, Worcestershire, B60 4BG
             </InfoCard>
 
@@ -80,6 +101,9 @@ export default async function InvitePage({params}) {
             </WarningCard>
           </>
         }
+
+        amazon wishlist or place to send money // TODO
+        link to download photo dump app? // TODO
       </div>
     </main>
   )

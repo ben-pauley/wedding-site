@@ -16,8 +16,12 @@ export default function Home() {
       <div className="mx-auto max-w-3xl px-6 pt-16 pb-8 w-full">
         {/* Header */}
         <header className="text-center space-y-3">
+          flower design from save-the-dates? // TODO
+          copy fonts from save-the-dates? // TODO
           <p className="uppercase tracking-widest text-sm text-gray-500 dark:text-gray-400">
             We’re getting married
+
+            image of me and Praise goes here // TODO
           </p>
           <h1 className="text-4xl md:text-5xl font-semibold">Praise & Ben</h1>
           <p className="text-gray-600 dark:text-gray-400">

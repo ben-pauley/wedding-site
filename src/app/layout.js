@@ -22,9 +22,8 @@ export const metadata = {
 export default function RootLayout({children}) {
   return (
     <html lang="en" suppressHydrationWarning>
-    <body
-      className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 transition-colors`}
-    >
+    <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col 
+              bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 transition-colors`}>
     <ThemeProvider>
       <TopBar/>
       <div className="flex-1 flex flex-col">{children}</div>
