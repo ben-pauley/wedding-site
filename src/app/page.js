@@ -11,9 +11,9 @@ export default function Home() {
   const [picked, setPicked] = useState(null)
 
   return (
-    <main className="min-h-screen bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 transition-colors">
-      <div className="mx-auto max-w-3xl px-6 py-16">
-
+    <main className="flex-1 bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 transition-colors">
+      {/* Content wrapper grows to fill available space */}
+      <div className="mx-auto max-w-3xl px-6 pt-16 pb-8 w-full">
         {/* Header */}
         <header className="text-center space-y-3">
           <p className="uppercase tracking-widest text-sm text-gray-500 dark:text-gray-400">
@@ -52,11 +52,6 @@ export default function Home() {
             />
           </section>
         )}
-
-        {/* Footer */}
-        <footer className="mt-16 text-center text-sm text-gray-500 dark:text-gray-400">
-          Built with ❤️ <br/> by Ben & Praise
-        </footer>
       </div>
     </main>
   )

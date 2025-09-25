@@ -22,13 +22,25 @@ export default function RootLayout({children}) {
   return (
     <html lang="en" suppressHydrationWarning>
     <body
-      className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 transition-colors`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100 transition-colors`}
     >
     <ThemeProvider>
+      {/* Theme toggle bar at the top */}
       <div className="flex justify-end p-4 bg-white dark:bg-neutral-900 transition-colors">
         <ThemeToggle/>
       </div>
-      {children}
+
+      {/* Main page content grows */}
+      <div className="flex-1 flex flex-col">
+        {children}
+      </div>
+
+      {/* Global footer pinned at bottom */}
+      <footer className="py-6 text-center text-sm
+                         text-gray-500 dark:text-gray-400
+                         bg-white dark:bg-neutral-900 transition-colors">
+        Please get in touch with Praise or Ben if you have any questions.
+      </footer>
     </ThemeProvider>
     </body>
     </html>
