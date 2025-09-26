@@ -1,7 +1,7 @@
 import React from "react"
 import {fetchGuestByToken} from "@/lib/airtable"
 import {getAccessLevel} from "@/lib/utils"
-import InfoCard from "@/components/InfoCard";
+import InfoCard from "@/components/InfoCard"
 import InvalidInvite from "@/components/InvalidInvite"
 import WarningCard from "@/components/WarningCard"
 
@@ -31,36 +31,39 @@ export default async function InvitePage({params}) {
         </header>
 
         <InfoCard
+          collapsible={false}
           moreLabel="More details"
           morePath={'/ceremony'}
           showMoreButton={true}
           title="Ceremony 💒"
           token={token}
         >
-          11:30 - Stirchley Community Church, Hazelwell St, Stirchley, Birmingham, B30 2JX
+          11:30 - Stirchley Community Church
         </InfoCard>
 
         {getAccessLevel(guest.priority) === "full"
           ? (
             <InfoCard
+              collapsible={false}
               moreLabel="More details"
               morePath={'/reception'}
               showMoreButton={true}
               title="Wedding Reception 🥂"
               token={token}
             >
-              14:00 - Redhouse Barn, Shaw Ln, Stoke Prior, Bromsgrove, Worcestershire, B60 4BG
+              14:00 - Redhouse Barn
             </InfoCard>
           )
           : <>
             <InfoCard
+              collapsible={false}
               moreLabel="More details"
               morePath={'/evening'}
               showMoreButton={true}
               title="Evening Celebration 🎉"
               token={token}
             >
-              18:00 - Redhouse Barn, Shaw Ln, Stoke Prior, Bromsgrove, Worcestershire, B60 4BG
+              18:00 - Redhouse Barn
             </InfoCard>
 
             <WarningCard title="Heads up">
@@ -71,6 +74,7 @@ export default async function InvitePage({params}) {
         }
 
         <InfoCard
+          collapsible={false}
           moreLabel="More details"
           morePath={'/rsvp'}
           showMoreButton={true}
@@ -82,6 +86,7 @@ export default async function InvitePage({params}) {
 
         {getAccessLevel(guest.priority) === "full" &&
           <InfoCard
+            collapsible={false}
             moreLabel="More details"
             morePath={'/meals'}
             title="Meal Selection 🍽️"

@@ -41,7 +41,7 @@ export default async function CeremonyPage({params}) {
 
             <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-neutral-700">
               <Image
-                src="/images/church.png" // put your image in /public/images/church.jpg
+                src="/images/church.png"
                 alt="Stirchley Community Church"
                 width={800}
                 height={500}
