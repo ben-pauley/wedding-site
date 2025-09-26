@@ -3,6 +3,8 @@
 import {useCallback, useState} from "react"
 import RSVPGuestForm from "./RSVPGuestForm"
 import GuestLookup from "./GuestLookup"
+import FormSubmitMessage from "@/components/FormSubmitMessage"
+import FormSubmitButton from "@/components/FormSubmitButton";
 
 export default function RSVPForm({initialGuests, loggedInGuest}) {
   const [guests, setGuests] = useState(initialGuests)
@@ -74,44 +76,9 @@ export default function RSVPForm({initialGuests, loggedInGuest}) {
           onChange={responses => handleGuestChange(guest.id, responses)}
         />
       ))}
-
       <GuestLookup onSelect={addGuest}/>
-
-      <button
-        type="submit"
-        disabled={!allComplete || saving}
-        className={`px-6 py-3 rounded-xl transition ${
-          allComplete && !saving
-            ? "bg-black text-white dark:bg-white dark:text-black hover:opacity-90"
-            : "bg-gray-300 text-gray-500 cursor-not-allowed dark:bg-neutral-700 dark:text-neutral-400"
-        }`}
-      >
-        {saving ? "Saving..." : "Save RSVP"}
-      </button>
-
-      {message && (
-        <div
-          className={`mt-4 p-4 rounded-xl border text-sm font-medium relative ${
-            message.startsWith("✅")
-              ? "bg-green-50 border-green-200 text-green-800 " +
-              "dark:bg-green-950/30 dark:border-green-700 dark:text-green-200"
-              : "bg-red-50 border-red-200 text-red-800 " +
-              "dark:bg-red-950/30 dark:border-red-700 dark:text-red-200"
-          }`}
-        >
-          <button
-            type="button"
-            onClick={() => setMessage("")}
-            className="absolute top-2 right-2 text-lg leading-none
-            text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-            aria-label="Dismiss message"
-          >
-            ×
-          </button>
-          {message}
-        </div>
-      )}
-
+      <FormSubmitButton disabled={!allComplete} label={"Save RSVP"} saving={saving}/>
+      <FormSubmitMessage message={message} onDismiss={() => setMessage("")}/>
     </form>
   )
 }

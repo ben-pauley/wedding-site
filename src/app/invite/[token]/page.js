@@ -86,24 +86,13 @@ export default async function InvitePage({params}) {
             <InfoCard
               collapsible={false}
               moreLabel="More details"
-              morePath={'/meals'}
+              morePath={'/meal'}
+              showMoreButton={true}
               title="Meal Selection 🍽️"
               token={token}
             >
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                You’ll be able to pick your meal here.
-              </p>
-              <div
-                className={"rounded-xl border border-dashed border-gray-300 " +
-                  "dark:border-neutral-700 p-4 text-gray-600 dark:text-gray-400"}
-              >
-                Meal picker coming soon!
-
-                make sure people can choose meals for multiple people (like family groups) // TODO
-                include main course picker // TODO
-                include allergies input // TODO
-                include dietary requirements / vegan / vegetarian / gluten free / nut free / etc // TODO
-              </div>
+              Meal picker coming soon! You’ll be able to pick your meal here.
+              Put this behind some sort of feature toggle for now? // TODO
             </InfoCard>
           )
           : (

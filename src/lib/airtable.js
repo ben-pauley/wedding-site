@@ -29,6 +29,15 @@ function normalizeGuest(record) {
           ? "no"
           : null,
     },
+    meal: fields["Meal choice"] || null,
+    dietaryChoice: !fields["Dietary Restrictions"]
+      ? null
+      : fields["Dietary Restrictions"] === "No"
+        ? "no"
+        : "yes",
+    dietaryText: fields["Dietary Restrictions"] && fields["Dietary Restrictions"] !== "No"
+      ? fields["Dietary Restrictions"]
+      : "",
   }
 }
 
