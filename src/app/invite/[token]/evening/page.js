@@ -2,6 +2,9 @@ import React from "react"
 import {fetchGuestByToken} from "@/lib/airtable"
 import InfoCard from "@/components/InfoCard"
 import InvalidInvite from "@/components/InvalidInvite"
+import RedhouseBarnLocationInfo from "@/components/RedhouseBarn/RedhouseBarnLocationInfo"
+import RedhouseBarnParkingInfo from "@/components/RedhouseBarn/RedhouseBarnParkingInfo"
+import RedhouseBarnAccommodationInfo from "@/components/RedhouseBarn/RedhouseBarnAccommodationInfo"
 
 export const dynamic = "force-dynamic"
 
@@ -29,14 +32,7 @@ export default async function EveningPage({params}) {
           </p>
         </header>
 
-        <InfoCard title="Location">
-          Redhouse Barn <br/>
-          Shaw Ln, Stoke Prior <br/>
-          Bromsgrove, Worcestershire <br/>
-          B60 4BG <br/>
-
-          image of venue and google maps goes here // TODO
-        </InfoCard>
+        <RedhouseBarnLocationInfo/>
 
         <InfoCard title="Schedule">
           <ul className="list-disc list-inside space-y-1">
@@ -46,14 +42,8 @@ export default async function EveningPage({params}) {
           </ul>
         </InfoCard>
 
-        <InfoCard title="Parking">
-          There is plenty of parking available at Redhouse Barn.
-          Please follow signage and the directions of venue staff on arrival.
-        </InfoCard>
-
-        <InfoCard title="Accommodation">
-          Hotel info and google maps goes here // TODO
-        </InfoCard>
+        <RedhouseBarnParkingInfo/>
+        <RedhouseBarnAccommodationInfo/>
 
         <InfoCard title="Other Information">
           <p className="text-gray-700 dark:text-gray-300">

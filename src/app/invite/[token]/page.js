@@ -18,6 +18,8 @@ export default async function InvitePage({params}) {
 
   const firstName = guest.fullName.split(" ")[0]
 
+  const access = getAccessLevel(guest.priority)
+
   return (
     <main className="flex-1 bg-white text-gray-800 dark:bg-neutral-900 dark:text-neutral-100">
       <div className="mx-auto max-w-3xl px-6 py-12 space-y-10">
@@ -41,7 +43,7 @@ export default async function InvitePage({params}) {
           11:30 - Stirchley Community Church
         </InfoCard>
 
-        {getAccessLevel(guest.priority) === "full"
+        {access === "full"
           ? (
             <InfoCard
               collapsible={false}
@@ -65,11 +67,6 @@ export default async function InvitePage({params}) {
             >
               18:00 - Redhouse Barn
             </InfoCard>
-
-            <WarningCard title="Heads up">
-              Your invite is for the ceremony and evening celebrations. If this looks
-              wrong, please contact the couple.
-            </WarningCard>
           </>
         }
 
@@ -84,29 +81,37 @@ export default async function InvitePage({params}) {
           Please let us know if you&#39;re coming!
         </InfoCard>
 
-        {getAccessLevel(guest.priority) === "full" &&
-          <InfoCard
-            collapsible={false}
-            moreLabel="More details"
-            morePath={'/meals'}
-            title="Meal Selection 🍽️"
-            token={token}
-          >
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
-              You’ll be able to pick your meal here.
-            </p>
-            <div
-              className={"rounded-xl border border-dashed border-gray-300 " +
-                "dark:border-neutral-700 p-4 text-gray-600 dark:text-gray-400"}
+        {access === "full"
+          ? (
+            <InfoCard
+              collapsible={false}
+              moreLabel="More details"
+              morePath={'/meals'}
+              title="Meal Selection 🍽️"
+              token={token}
             >
-              Meal picker coming soon!
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
+                You’ll be able to pick your meal here.
+              </p>
+              <div
+                className={"rounded-xl border border-dashed border-gray-300 " +
+                  "dark:border-neutral-700 p-4 text-gray-600 dark:text-gray-400"}
+              >
+                Meal picker coming soon!
 
-              make sure people can choose meals for multiple people (like family groups) // TODO
-              include main course picker // TODO
-              include allergies input // TODO
-              include dietary requirements / vegan / vegetarian / gluten free / nut free / etc // TODO
-            </div>
-          </InfoCard>
+                make sure people can choose meals for multiple people (like family groups) // TODO
+                include main course picker // TODO
+                include allergies input // TODO
+                include dietary requirements / vegan / vegetarian / gluten free / nut free / etc // TODO
+              </div>
+            </InfoCard>
+          )
+          : (
+            <WarningCard title="Heads up">
+              Your invite is for the ceremony and evening celebrations. If this looks
+              wrong, please contact the couple.
+            </WarningCard>
+          )
         }
 
         amazon wishlist or place to send money // TODO
