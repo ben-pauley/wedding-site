@@ -53,8 +53,8 @@ export default async function CeremonyPage({params}) {
               <iframe
                 src={"https://www.google.com/maps/embed" +
                   "?pb=!1m18!1m12!1m3!1d2432.7694740006573!2d-1.9251183869338957!3d52.42897454284733!2m3!" +
-                  "1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4870be81a2bc5f9d%3A0xba271076200390a4!" +
-                  "2sStirchley%20Community%20Church!5e0!3m2!1sen!2suk!4v1758885742206!5m2!1sen!2suk"}
+                  "1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4870be81a2bc5f9d%3A0xba271076200390a4!2s" +
+                  "Stirchley%20Community%20Church!5e0!3m2!1sen!2suk!4v1758885742206!5m2!1sen!2suk"}
                 width="100%"
                 height="500"
                 style={{border: 0}}
