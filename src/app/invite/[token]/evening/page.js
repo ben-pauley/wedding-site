@@ -6,12 +6,12 @@ import InvalidInvite from "@/components/InvalidInvite"
 export const dynamic = "force-dynamic"
 
 export const metadata = {
-  title: "Reception Details · Praise & Ben's Wedding",
-  description: "More information about the wedding reception",
+  title: "Evening Details · Praise & Ben's Wedding",
+  description: "More information about the evening celebration",
 }
 
 export default async function EveningPage({params}) {
-  const {token} = params
+  const {token} = await params
   const guest = await fetchGuestByToken(token)
 
   if (!guest) {

@@ -8,7 +8,7 @@ import WarningCard from "@/components/WarningCard"
 export const dynamic = "force-dynamic"
 
 export default async function InvitePage({params}) {
-  const {token} = params
+  const {token} = await params
 
   const guest = await fetchGuestByToken(token)
 
@@ -34,16 +34,6 @@ export default async function InvitePage({params}) {
           moreLabel="More details"
           morePath={'/ceremony'}
           showMoreButton={true}
-          title="RSVP Here ✉️"
-          token={token}
-        >
-          make sure people can RSVP for multiple people (like family groups) // TODO
-        </InfoCard>
-
-        <InfoCard
-          moreLabel="More details"
-          morePath={'/ceremony'}
-          showMoreButton={true}
           title="Ceremony 💒"
           token={token}
         >
@@ -51,7 +41,7 @@ export default async function InvitePage({params}) {
         </InfoCard>
 
         {getAccessLevel(guest.priority) === "full"
-          ? <>
+          ? (
             <InfoCard
               moreLabel="More details"
               morePath={'/reception'}
@@ -61,29 +51,7 @@ export default async function InvitePage({params}) {
             >
               14:00 - Redhouse Barn, Shaw Ln, Stoke Prior, Bromsgrove, Worcestershire, B60 4BG
             </InfoCard>
-
-            <InfoCard
-              moreLabel="More details"
-              morePath={'/meals'}
-              title="Meal Selection 🍽️"
-              token={token}
-            >
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                You’ll be able to pick your meal here.
-              </p>
-              <div
-                className={"rounded-xl border border-dashed border-gray-300 " +
-                  "dark:border-neutral-700 p-4 text-gray-600 dark:text-gray-400"}
-              >
-                Meal picker coming soon!
-
-                make sure people can choose meals for multiple people (like family groups) // TODO
-                include main course picker // TODO
-                include allergies input // TODO
-                include dietary requirements / vegan / vegetarian / gluten free / nut free / etc // TODO
-              </div>
-            </InfoCard>
-          </>
+          )
           : <>
             <InfoCard
               moreLabel="More details"
@@ -100,6 +68,40 @@ export default async function InvitePage({params}) {
               wrong, please contact the couple.
             </WarningCard>
           </>
+        }
+
+        <InfoCard
+          moreLabel="More details"
+          morePath={'/rsvp'}
+          showMoreButton={true}
+          title="RSVP Here 📨"
+          token={token}
+        >
+          Please let us know if you&#39;re coming!
+        </InfoCard>
+
+        {getAccessLevel(guest.priority) === "full" &&
+          <InfoCard
+            moreLabel="More details"
+            morePath={'/meals'}
+            title="Meal Selection 🍽️"
+            token={token}
+          >
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
+              You’ll be able to pick your meal here.
+            </p>
+            <div
+              className={"rounded-xl border border-dashed border-gray-300 " +
+                "dark:border-neutral-700 p-4 text-gray-600 dark:text-gray-400"}
+            >
+              Meal picker coming soon!
+
+              make sure people can choose meals for multiple people (like family groups) // TODO
+              include main course picker // TODO
+              include allergies input // TODO
+              include dietary requirements / vegan / vegetarian / gluten free / nut free / etc // TODO
+            </div>
+          </InfoCard>
         }
 
         amazon wishlist or place to send money // TODO

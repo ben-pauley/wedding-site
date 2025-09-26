@@ -12,7 +12,7 @@ export const metadata = {
 }
 
 export default async function ReceptionPage({params}) {
-  const {token} = params
+  const {token} = await params
   const guest = await fetchGuestByToken(token)
   const access = getAccessLevel(guest.priority)
 

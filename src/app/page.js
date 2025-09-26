@@ -1,7 +1,7 @@
 "use client"
 
 import {useState} from "react"
-import RSVPForm from "@/components/RSVPForm"
+import EntryForm from "@/components/EntryForm"
 
 export default function Home() {
   const [open, setOpen] = useState(false)
@@ -44,7 +44,7 @@ export default function Home() {
         {/* RSVP form */}
         {open && (
           <section className="mt-12 mx-auto max-w-xl">
-            <RSVPForm
+            <EntryForm
               name={name}
               setName={setName}
               email={email}

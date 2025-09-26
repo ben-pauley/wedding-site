@@ -68,6 +68,7 @@ export async function GET(req) {
         id: r.id,
         fullName: r.fields["Guest"] || "",
         hasEmail: !!r.fields["Email"],
+        priority: r.fields["Priority"] || null,
       }))
       .filter(c => c.fullName)
 

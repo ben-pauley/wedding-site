@@ -11,7 +11,7 @@ export const metadata = {
 }
 
 export default async function CeremonyPage({params}) {
-  const {token} = params
+  const {token} = await params
   const guest = await fetchGuestByToken(token)
 
   if (!guest) {
