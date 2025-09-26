@@ -43,7 +43,7 @@ export default async function RSVPPage({params}) {
         <header className="space-y-2">
           <h1 className="text-3xl md:text-4xl font-semibold">RSVP 📨</h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Hello, {firstName}. Please let us know which parts of our special day you’ll be attending.
+            Please let us know which parts of our special day you’ll be attending, {firstName}.
           </p>
         </header>
         <RSVPForm initialGuests={guests} loggedInGuest={loggedInGuest}/>
