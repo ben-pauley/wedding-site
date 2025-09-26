@@ -1,4 +1,5 @@
 import React from "react"
+import Image from "next/image"
 import {fetchGuestByToken} from "@/lib/airtable"
 import InfoCard from "@/components/InfoCard"
 import InvalidInvite from "@/components/InvalidInvite"
@@ -30,13 +31,41 @@ export default async function CeremonyPage({params}) {
         </header>
 
         <InfoCard title="Location">
-          Stirchley Community Church <br/>
-          Hazelwell St, Stirchley <br/>
-          Birmingham <br/>
-          B30 2JX <br/>
+          <div className="space-y-4">
+            <div>
+              Stirchley Community Church <br/>
+              Hazelwell St, Stirchley <br/>
+              Birmingham <br/>
+              B30 2JX
+            </div>
 
-          image of church and google maps goes here // TODO
+            <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-neutral-700">
+              <Image
+                src="/images/church.png" // put your image in /public/images/church.jpg
+                alt="Stirchley Community Church"
+                width={800}
+                height={500}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+
+            <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-neutral-700">
+              <iframe
+                src={"https://www.google.com/maps/embed" +
+                  "?pb=!1m18!1m12!1m3!1d2432.7694740006573!2d-1.9251183869338957!3d52.42897454284733!2m3!" +
+                  "1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4870be81a2bc5f9d%3A0xba271076200390a4!" +
+                  "2sStirchley%20Community%20Church!5e0!3m2!1sen!2suk!4v1758885742206!5m2!1sen!2suk"}
+                width="100%"
+                height="500"
+                style={{border: 0}}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
         </InfoCard>
+
 
         <InfoCard title="Schedule">
           <ul className="list-disc list-inside space-y-1">
